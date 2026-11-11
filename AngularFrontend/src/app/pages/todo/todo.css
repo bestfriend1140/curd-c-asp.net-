@@ -1,0 +1,20 @@
+:host {
+  display: block;
+}
+
+.refresh-btn {
+  height: 2.75rem;
+  border-radius: 9999px;
+}
+button[aria-label='Delete task permanently'] {
+  background-color: #ef4444 !important;
+  color: white !important;
+}
+
+button[aria-label='Delete task permanently']:hover {
+  background-color: #dc2626 !important;
+}
+
+button[aria-label='Delete task permanently'] mat-icon {
+  color: white !important;
+}

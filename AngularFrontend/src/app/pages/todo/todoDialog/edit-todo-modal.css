@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  position: relative;
+  z-index: 50;
+}
+
+input {
+  pointer-events: auto;
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: text;
+}

@@ -1,1 +1,98 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: #0f172a;
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(1100px 560px at 100% -10%, rgba(99, 102, 241, 0.14), transparent 60%),
+    radial-gradient(900px 520px at -10% 5%, rgba(139, 92, 246, 0.12), transparent 55%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.22);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* Focus-visible utility (Tailwind v4 compatible) */
+.focus-visible:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Focus ring for interactive elements */
+*:focus-visible {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.mat-icon.icon-sm {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+}
+
+.mat-icon.icon-xs {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+}
+
+.mat-icon.icon-lg {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Card hover enhancement */
+.card-hover {
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-hover:hover {
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Button ripple enhancement (Material) */
+.mat-button .mdc-ripple .mdc-ripple-wrapper {
+  transition: background-color 0.2s;
+}
+
+/* Input focus state */
+.mat-form-field-outline.has-outlineappearance.mat-form-field-outline-gap {
+  color: #3b82f6;
+}
+.mat-form-field-outline.has-outlineappearance .mat-form-field-outline-thick {
+  color: #3b82f6;
+}

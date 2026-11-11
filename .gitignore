@@ -1,4 +1,3 @@
-@"
 # .NET
 **/bin/
 **/obj/
@@ -20,7 +19,7 @@
 **/appsettings.Development.json
 .env
 .env.*
+!.env.example
 
 # Logs
 *.log
-"@ | Set-Content .gitignore

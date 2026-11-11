@@ -1,0 +1,111 @@
+<div
+  class="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto bg-slate-900/45 backdrop-blur-sm sm:items-center sm:p-4"
+  (click)="closeModal()"
+  (keydown.escape)="closeModal()"
+>
+  <div
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="edit-task-heading"
+    cdkTrapFocus
+    [cdkTrapFocusAutoCapture]="true"
+    class="animate-fade-up w-full max-w-md overflow-hidden rounded-t-3xl bg-white shadow-2xl shadow-slate-900/20 motion-reduce:animate-none sm:rounded-3xl"
+    (click)="$event.stopPropagation()"
+  >
+    <form
+      (submit)="$event.preventDefault(); submit(editTitleInput.value, editDescInput.value)"
+    >
+      <!-- Header -->
+      <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-6 py-4">
+        <div class="flex items-center gap-3">
+          <span class="grid h-10 w-10 place-items-center rounded-xl bg-indigo-50 text-indigo-600">
+            <mat-icon>edit</mat-icon>
+          </span>
+
+          <h2 id="edit-task-heading" class="text-lg font-semibold text-slate-900">
+            Edit task
+          </h2>
+        </div>
+
+        <button
+          type="button"
+          aria-label="Close"
+          class="grid h-9 w-9 place-items-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+          (click)="closeModal()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Fields -->
+      <div class="space-y-4 px-6 py-5">
+        <!-- Title Field -->
+        <div>
+          <label for="edit-task-title" class="mb-1.5 block text-sm font-medium text-slate-700">
+            Title
+          </label>
+
+          <input
+            #editTitleInput
+            cdkFocusInitial
+            id="edit-task-title"
+            type="text"
+            autocomplete="off"
+            [value]="todo.title"
+            class="w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 transition placeholder:text-slate-400 focus:outline-none focus:ring-4"
+            [class]="titleError
+              ? 'border-red-300 focus:border-red-500 focus:ring-red-100'
+              : 'border-slate-200 focus:border-indigo-500 focus:ring-indigo-100'"
+            [attr.aria-invalid]="titleError"
+            (input)="titleError = false"
+          />
+
+          @if (titleError) {
+            <p role="alert" class="mt-1.5 text-xs font-medium text-red-600">
+              Enter a title to save this task.
+            </p>
+          }
+        </div>
+
+        <!-- Description Field -->
+        <div>
+          <label
+            for="edit-task-desc"
+            class="mb-1.5 block text-sm font-medium text-slate-700"
+          >
+            Description
+            <span class="font-normal text-slate-400">(optional)</span>
+          </label>
+
+          <input
+            #editDescInput
+            id="edit-task-desc"
+            type="text"
+            autocomplete="off"
+            placeholder="Add details..."
+            [value]="todo.description ?? ''"
+            class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-100"
+          />
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-end gap-2 border-t border-slate-100 bg-slate-50/70 px-6 py-4">
+        <button
+          type="button"
+          class="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-200/70"
+          (click)="closeModal()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500"
+        >
+          Save changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

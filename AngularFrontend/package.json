@@ -3,8 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "config": "node scripts/generate-env.mjs",
+    "prestart": "npm run config",
     "start": "ng serve",
+    "prebuild": "npm run config",
     "build": "ng build",
+    "prewatch": "npm run config",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:AngularFrontend": "node dist/AngularFrontend/server/server.mjs"
@@ -12,10 +16,12 @@
   "private": true,
   "packageManager": "npm@10.9.3",
   "dependencies": {
+    "@angular/cdk": "^21.2.14",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
+    "@angular/material": "^21.2.14",
     "@angular/platform-browser": "^21.2.0",
     "@angular/platform-server": "^21.2.0",
     "@angular/router": "^21.2.0",
@@ -28,10 +34,13 @@
     "@angular/build": "^21.2.29",
     "@angular/cli": "^21.2.29",
     "@angular/compiler-cli": "^21.2.0",
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
     "jsdom": "^28.0.0",
+    "postcss": "^8.5.32",
     "prettier": "^3.8.1",
+    "tailwindcss": "^4.3.5",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }

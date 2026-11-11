@@ -1,0 +1,257 @@
+
+<section class="relative z-10 mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
+
+  <!-- Header -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <div class="flex items-center gap-2 text-sm font-medium text-indigo-600">
+        <mat-icon class="icon-sm">checklist</mat-icon>
+        Your workspace
+      </div>
+
+      <h1 class="mt-1 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+        Todo list
+      </h1>
+
+      <p class="mt-1 text-sm text-slate-500">
+        Track what's done and what's next.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="load()"
+        class="refresh-btn"
+        [disabled]="loading()"
+      >
+        <mat-icon class="icon-sm mr-1">refresh</mat-icon>
+        Refresh
+      </button>
+
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="openAddModal()"
+        class="add-btn"
+      >
+        <mat-icon class="icon-sm">add</mat-icon>
+        Add Todo
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="mt-8 grid gap-3">
+      @for (item of [1, 2, 3]; track item) {
+        <div class="h-24 animate-pulse rounded-2xl border border-slate-200 bg-white/70"></div>
+      }
+    </div>
+  }
+
+  <!-- Error -->
+  @else if (error()) {
+    <div
+      class="mt-8 flex flex-col items-center gap-3 rounded-2xl border border-red-200 bg-red-50/70 p-10 text-center"
+    >
+      <span class="grid h-14 w-14 place-items-center rounded-full bg-red-100 text-red-500">
+        <mat-icon>error_outline</mat-icon>
+      </span>
+
+      <p class="text-sm font-medium text-red-700">
+        {{ error() }}
+      </p>
+
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="load()"
+      >
+        Try again
+      </button>
+    </div>
+  }
+
+  <!-- Empty -->
+  @else if (todos().length === 0) {
+    <div
+      class="mt-8 flex flex-col items-center gap-3 rounded-2xl border border-dashed border-slate-300 bg-white/60 p-12 text-center"
+    >
+      <span class="grid h-16 w-16 place-items-center rounded-full bg-indigo-50 text-indigo-500">
+        <mat-icon class="icon-lg">task_alt</mat-icon>
+      </span>
+
+      <p class="text-lg font-semibold text-slate-800">
+        All clear!
+      </p>
+
+      <p class="text-sm text-slate-500">
+        No tasks yet. Create one to get started.
+      </p>
+    </div>
+  }
+
+  <!-- Todo List -->
+  @else {
+    <div
+      class="animate-fade-up mt-8 rounded-2xl border border-slate-200/80 bg-white/80 p-5 shadow-sm backdrop-blur"
+    >
+      <div class="flex items-center justify-between text-sm">
+        <span class="font-medium text-slate-700">
+          {{ completedCount() }} of {{ todos().length }} completed
+        </span>
+
+        <span class="font-semibold text-indigo-600">
+          {{ progress() }}%
+        </span>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
+        <div
+          class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-500"
+          [style.width.%]="progress()"
+        ></div>
+      </div>
+
+      <div class="mt-3 flex gap-4 text-xs text-slate-500">
+        <span class="inline-flex items-center gap-1.5">
+          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+          {{ completedCount() }} done
+        </span>
+
+        <span class="inline-flex items-center gap-1.5">
+          <span class="h-2 w-2 rounded-full bg-amber-400"></span>
+          {{ pendingCount() }} pending
+        </span>
+      </div>
+    </div>
+
+    <!-- Task Cards -->
+    <div class="mt-4 flex flex-col gap-3">
+      @for (todo of todos(); track todo.id) {
+        <article
+          class="group flex items-start gap-4 rounded-2xl border p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-900/5 sm:p-5"
+          [class.border-emerald-200]="todo.isCompleted"
+          [class.bg-emerald-50]="todo.isCompleted"
+          [class.border-slate-200]="!todo.isCompleted"
+          [class.bg-white]="!todo.isCompleted"
+        >
+
+          <!-- Toggle Complete -->
+          <button
+            type="button"
+            class="grid h-10 w-10 shrink-0 place-items-center rounded-xl transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+            [class.bg-emerald-100]="todo.isCompleted"
+            [class.text-emerald-600]="todo.isCompleted"
+            [class.bg-slate-100]="!todo.isCompleted"
+            [class.text-slate-400]="!todo.isCompleted"
+            [attr.aria-label]="todo.isCompleted ? 'Mark task as pending' : 'Mark task as completed'"
+            [attr.aria-pressed]="todo.isCompleted"
+            (click)="toggleComplete(todo)"
+          >
+            <mat-icon>
+              {{ todo.isCompleted ? 'check_circle' : 'radio_button_unchecked' }}
+            </mat-icon>
+          </button>
+
+          <!-- Task Information -->
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <h2
+                class="font-semibold text-slate-900"
+                [class.line-through]="todo.isCompleted"
+                [class.text-slate-400]="todo.isCompleted"
+              >
+                {{ todo.title }}
+              </h2>
+
+              <!-- Status -->
+              <span
+                class="rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide"
+                [class.bg-emerald-100]="todo.isCompleted"
+                [class.text-emerald-700]="todo.isCompleted"
+                [class.bg-amber-100]="!todo.isCompleted"
+                [class.text-amber-700]="!todo.isCompleted"
+              >
+                {{ todo.isCompleted ? 'Done' : 'Pending' }}
+              </span>
+            </div>
+
+            <!-- Description -->
+            @if (todo.description) {
+              <p
+                class="mt-1 whitespace-pre-line text-sm text-slate-600"
+                [class.text-slate-400]="todo.isCompleted"
+              >
+                {{ todo.description }}
+              </p>
+            }
+
+            <!-- Metadata -->
+            <div class="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-400">
+              <span class="inline-flex items-center gap-1">
+                <mat-icon class="icon-xs">schedule</mat-icon>
+                {{ todo.createdAt | date: 'mediumDate' }}
+              </span>
+
+              <span class="inline-flex items-center gap-1">
+                <mat-icon class="icon-xs">person</mat-icon>
+                User #{{ todo.userId }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Edit Button -->
+          <button
+            mat-icon-button
+            type="button"
+            aria-label="Edit task"
+            class="shrink-0 text-slate-400 transition hover:text-indigo-600"
+            (click)="openEditModal(todo)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            aria-label="Delete task"
+            class="shrink-0 text-red-500 hover:text-red-600"
+            (click)="openDeleteModal(todo)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </article>
+      }
+    </div>
+  }
+</section>
+
+
+
+<!-- Add Todo Modal -->
+@if (showAddModal()) {
+  <app-add-todo-modal
+    (save)="addTodo($event.title, $event.description)"
+    (close)="closeAddModal()"
+  />
+}
+
+<!-- Edit Todo Modal -->
+@if (editingTodo(); as todo) {
+  <app-edit-todo-modal
+    [todo]="todo"
+    (save)="saveEdit($event.title, $event.description)"
+    (close)="closeEditModal()"
+  />
+}
+
+@if (deletingTodo(); as todo) {
+  <app-delete-todo-modal
+    [todo]="todo"
+    (save)="saveDelete()"
+    (close)="closeDeleteModal()"
+  />
+}
