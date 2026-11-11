@@ -1,0 +1,26 @@
+@"
+# .NET
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+
+# Angular
+**/node_modules/
+**/dist/
+**/.angular/
+
+# Database
+*.mdf
+*.ldf
+*.db
+
+# Environment and secrets
+**/appsettings.Development.json
+.env
+.env.*
+
+# Logs
+*.log
+"@ | Set-Content .gitignore
