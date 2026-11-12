@@ -22,7 +22,7 @@ export const routes: Routes = [
   },
     {
     path: 'bin',
-    loadComponent: () => import('./pages/bin/bin').then((m) => m.BinPage),
+    loadComponent: () => import('./pages/trash/bin').then((m) => m.BinPage),
   },
   { path: '**', redirectTo: 'main' },
 ];

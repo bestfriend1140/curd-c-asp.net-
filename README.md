@@ -197,3 +197,10 @@ Example request body for POST/PUT:
   dev server uses another port, update the policy in `netCurdApi/Program.cs`.
 - **`npm`/`npx` blocked by PowerShell** — the execution policy may block the `.ps1`
   shims; use `npm.cmd` / `npx.cmd` instead.
+
+
+
+Test-Path "$env:USERPROFILE\.dotnet\tools\dotnet-ef.exe"
+$env:PATH += ";$env:USERPROFILE\.dotnet\tools"
+dotnet ef migrations add InitialCreate
+dotnet ef database update
