@@ -1,0 +1,64 @@
+<div
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm"
+  (mousedown)="$event.target === $event.currentTarget && closeModal()"
+  (keydown.escape)="closeModal()"
+>
+  <div
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="delete-trash-item-heading"
+    class="animate-fade-up w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl"
+  >
+    <!-- Header -->
+    <div class="flex items-center justify-between gap-3 border-b border-slate-100 px-6 py-4">
+      <div class="flex items-center gap-3">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-red-50 text-red-600">
+          <mat-icon>delete_forever</mat-icon>
+        </span>
+
+        <h2 id="delete-trash-item-heading" class="text-lg font-semibold text-slate-900">
+          Delete item permanently
+        </h2>
+      </div>
+
+      <button
+        type="button"
+        aria-label="Close"
+        class="grid h-9 w-9 place-items-center rounded-full text-slate-400 hover:bg-slate-100"
+        (click)="closeModal()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="px-6 py-5">
+      <p class="text-sm text-slate-600">
+        Are you sure you want to permanently delete
+        <span class="font-semibold text-slate-900">
+          "{{ todo.title }}"
+        </span>?
+        This action cannot be undone.
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex justify-end gap-2 border-t border-slate-100 bg-slate-50 px-6 py-4">
+      <button
+        type="button"
+        class="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-200"
+        (click)="closeModal()"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        class="rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-red-500"
+        (click)="confirmDelete()"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</div>

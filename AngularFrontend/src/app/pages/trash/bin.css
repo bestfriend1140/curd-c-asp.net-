@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+.refresh-btn {
+  height: 2.75rem;
+  border-radius: 9999px;
+}
+
+button.mat-mdc-icon-button.delete-trash-item-button {
+  --mat-icon-button-icon-color: #fff;
+  background-color: #ef4444;
+}
+
+button.mat-mdc-icon-button.delete-trash-item-button:hover {
+  background-color: #dc2626;
+}
